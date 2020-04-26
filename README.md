@@ -1,6 +1,6 @@
 # Function Programming in Kotlin
 
-[![Build Status](https://travis-ci.org/fpinkotlin/fpinkotlin.svg?branch=master)](https://travis-ci.org/fpinkotlin/fpinkotlin)
+[![Build Status](https://travis-ci.org/vikasyadawad/fpinkotlin.svg?branch=master)](https://travis-ci.org/fpinkotlin/fpinkotlin)
 
 This is the official source code repository for Manning's [Functional
 Programming in
