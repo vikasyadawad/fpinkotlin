@@ -5,12 +5,13 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
 // tag::init[]
-fun <A> filter2(xa: List<A>, f: (A) -> Boolean): List<A> = TODO()
+fun <A> filter2(xa: List<A>, f: (A) -> Boolean): List<A> =
+    flatMap(xa) { if (f(it)) List.of(it) else List.empty() }
 // end::init[]
 
 class Exercise_3_20 : WordSpec({
     "list filter" should {
-        "!filter out elements not compliant to predicate" {
+        "filter out elements not compliant to predicate" {
             filter2(
                 List.of(1, 2, 3, 4, 5)
             ) { it % 2 == 0 } shouldBe List.of(2, 4)

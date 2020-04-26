@@ -5,17 +5,28 @@ import chapter3.Leaf
 import chapter3.Tree
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
+import kotlin.math.max
 
 // tag::init[]
-fun <A, B> fold(ta: Tree<A>, l: (A) -> B, b: (B, B) -> B): B = TODO()
+fun <A, B> fold(ta: Tree<A>, l: (A) -> B, b: (B, B) -> B): B =
+    when (ta) {
+        is Branch -> b(fold(ta.left, l, b), fold(ta.right, l, b))
+        is Leaf -> l(ta.value)
+    }
 
-fun <A> sizeF(ta: Tree<A>): Int = TODO()
+fun <A> sizeF(ta: Tree<A>): Int =
+    fold(ta, { 1 }, { a, b -> 1 + a + b })
 
-fun maximumF(ta: Tree<Int>): Int = TODO()
+fun maximumF(ta: Tree<Int>): Int =
+    fold(ta, { it }, { a, b -> max(a, b) })
 
-fun <A> depthF(ta: Tree<A>): Int = TODO()
+fun <A> depthF(ta: Tree<A>): Int =
+    fold(ta, { 0 }, { a, b -> max(a, b) + 1 })
 
-fun <A, B> mapF(ta: Tree<A>, f: (A) -> B): Tree<B> = TODO()
+fun <A, B> mapF(ta: Tree<A>, f: (A) -> B): Tree<B> =
+    fold(ta, { a: A -> Leaf(f(a)) }, { a: Tree<B>, b: Tree<B> ->
+        Branch(a, b)
+    })
 // end::init[]
 
 class Exercise_3_28 : WordSpec({
@@ -34,19 +45,19 @@ class Exercise_3_28 : WordSpec({
                 )
             )
         )
-        "!generalise size" {
+        "generalise size" {
             sizeF(tree) shouldBe 15
         }
 
-        "!generalise maximum" {
+        "generalise maximum" {
             maximumF(tree) shouldBe 21
         }
 
-        "!generalise depth" {
+        "generalise depth" {
             depthF(tree) shouldBe 5
         }
 
-        "!generalise map" {
+        "generalise map" {
             mapF(tree) { it * 10 } shouldBe
                 Branch(
                     Branch(Leaf(10), Leaf(20)),
