@@ -15,17 +15,17 @@ import io.kotlintest.specs.WordSpec
 class Exercise_5_1 : WordSpec({
     //tag::init[]
     fun <A> Stream<A>.toList(): List<A> =
-            when(this) {
+            when (this) {
                 is Empty -> Nil
                 is Cons -> chapter3.Cons(this.h(), this.t().toList())
             }
 
     fun <A> Stream<A>.safeToList(): List<A> {
         tailrec fun go(stream: Stream<A>, acc: List<A>): List<A> =
-            when(stream) {
-                is Empty -> acc
-                is Cons -> go(stream.t(), chapter3.Cons(stream.h(), acc))
-            }
+                when (stream) {
+                    is Empty -> acc
+                    is Cons -> go(stream.t(), chapter3.Cons(stream.h(), acc))
+                }
         return reverse(go(this, Nil))
     }
     //end::init[]
