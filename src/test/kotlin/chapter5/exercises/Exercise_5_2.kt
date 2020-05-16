@@ -2,6 +2,8 @@ package chapter5.exercises
 
 import chapter3.List
 import chapter3.Nil
+import chapter5.Cons
+import chapter5.Empty
 import chapter5.Stream
 import chapter5.solutions.toList
 import io.kotlintest.shouldBe
@@ -17,7 +19,16 @@ class Exercise_5_2 : WordSpec({
     //end::take[]
 
     //tag::drop[]
-    fun <A> Stream<A>.drop(n: Int): Stream<A> = TODO()
+    fun <A> Stream<A>.drop(n: Int): Stream<A> {
+        tailrec fun go(i: Int, acc: Stream<A>): Stream<A> =
+                when (acc) {
+                    is Empty -> Stream.empty()
+                    is Cons ->
+                        if (i == 0) acc
+                        else go(i - 1, acc.t())
+                }
+        return go(n, this)
+    }
     //end::drop[]
 
     "Stream.take(n)" should {
