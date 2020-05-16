@@ -24,7 +24,8 @@ class Exercise_5_1 : WordSpec({
         tailrec fun go(stream: Stream<A>, acc: List<A>): List<A> =
                 when (stream) {
                     is Empty -> acc
-                    is Cons -> go(stream.t(), chapter3.Cons(stream.h(), acc))
+                    is Cons ->
+                        go(stream.t(), chapter3.Cons(stream.h(), acc))
                 }
         return reverse(go(this, Nil))
     }
