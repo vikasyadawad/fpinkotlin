@@ -14,18 +14,15 @@ import io.kotlintest.specs.WordSpec
 class Exercise_5_3 : WordSpec({
 
     //tag::init[]
-    fun <A> Stream<A>.takeWhile(p: (A) -> Boolean): Stream<A> {
-        fun go(p: (A) -> Boolean, acc: Stream<A>): Stream<A> =
-                when (acc) {
-                    is Empty -> Stream.empty()
-                    is Cons ->
-                        if (p(acc.h()))
-                            Stream.cons(acc.h, { go(p, acc.t()) })
-                        else
-                            Stream.empty()
-                }
-        return go(p, this)
-    }
+    fun <A> Stream<A>.takeWhile(p: (A) -> Boolean): Stream<A> =
+            when (this) {
+                is Empty -> Stream.empty()
+                is Cons ->
+                    if (p(this.h()))
+                        Stream.cons(this.h, { this.t().takeWhile(p) })
+                    else
+                        Stream.empty()
+            }
     //end::init[]
 
     "Stream.takeWhile" should {
