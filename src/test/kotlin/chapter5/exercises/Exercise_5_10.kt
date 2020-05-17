@@ -13,11 +13,15 @@ import io.kotlintest.specs.WordSpec
 class Exercise_5_10 : WordSpec({
 
     //tag::init[]
-    fun fibs(): Stream<Int> = TODO()
+    fun fibs(): Stream<Int> {
+        fun go(n: Int, acc: Int): Stream<Int> =
+            Stream.cons({ n }, { go(acc, acc + n) })
+        return go(0, 1)
+    }
     //end::init[]
 
     "fibs" should {
-        "!return a Stream of fibonacci sequence numbers" {
+        "return a Stream of fibonacci sequence numbers" {
             fibs().take(10).toList() shouldBe
                 List.of(0, 1, 1, 2, 3, 5, 8, 13, 21, 34)
         }
